@@ -4,6 +4,8 @@ inoremap <silent> jj <ESC>
 
 syntax on
 
+set encoding=utf-8
+
 set hlsearch
 set ignorecase
 set smartcase

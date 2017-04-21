@@ -1,6 +1,3 @@
-filetype plugin indent on
-syntax on
-
 inoremap <silent> jj <ESC>
 
 set laststatus=2

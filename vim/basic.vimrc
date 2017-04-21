@@ -24,3 +24,4 @@ set expandtab
 set smarttab
 
 set clipboard=unnamed
+set backspace=indent,eol,start

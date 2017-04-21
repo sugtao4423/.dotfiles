@@ -1,0 +1,4 @@
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+disabled = '!has("lua")'
+on_i = 1

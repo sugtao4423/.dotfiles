@@ -1,4 +1,4 @@
-let s:dein_dir = expand('~/dotfiles/vim/dein')
+let s:dein_dir = expand('~/.dotfiles/vim/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
@@ -8,7 +8,7 @@ if &runtimepath !~# '/dein.vim'
     execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-let s:toml_dir = '~/dotfiles/vim/toml/'
+let s:toml_dir = '~/.dotfiles/vim/toml/'
 
 if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)

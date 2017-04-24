@@ -7,7 +7,7 @@ vim/.vimrc
 ';
 
 for f in ${files}; do
-    ln -s ~/dotfiles/${f} ~
+    ln -s ~/.dotfiles/${f} ~
 done
 
 

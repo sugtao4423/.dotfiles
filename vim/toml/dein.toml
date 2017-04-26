@@ -13,3 +13,6 @@ repo = 'bronson/vim-trailing-whitespace'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'

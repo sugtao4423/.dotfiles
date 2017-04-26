@@ -10,3 +10,6 @@ repo = 'Yggdroot/indentLine'
 
 [[plugins]]
 repo = 'bronson/vim-trailing-whitespace'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'

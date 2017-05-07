@@ -30,17 +30,18 @@ while true; do
     esac
 done
 
-if [ "$(uname)" == 'Darwin' ]; then
+if [ "$(uname)" = 'Darwin' ]; then
     brew install vim --with-lua
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
     if [ "$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')" != 'debian' ]; then
         kind="$(cat /etc/os-release | grep ^ID_LIKE= | sed -e 's/ID_LIKE=//')"
-        if [ "$kind" != 'debian' ]; then
+        if [ "$kind" = 'debian' -o "$kind" = 'ubuntu' ]; then
+            sudo apt install -y vim-nox
+        else
             echo "Your distribution ($kind) is not supported."
             exit 1;
         fi
     fi
-    sudo apt install -y vim-nox
 else
     echo "Your platform ($(uname -a)) is not supported."
     exit 1

@@ -1,49 +1,115 @@
 #!/bin/bash
 
-files='
-nano/.nanorc
-tmux/.tmux.conf
-vim/.vimrc
-';
-
-for f in ${files}; do
-    ln -s ~/.dotfiles/${f} ~
-done
-
-
-echo 'Do you want install vim (with lua)?'
-
-while true; do
-    echo 'type y or n'
-    read inst
-    case $inst in
-        y)
-            echo -e "begin install vim\n"
-            break
-            ;;
-        n)
-            echo -e "finished.\n"
-            exit 0
-            ;;
-        *)
-            ;;
-    esac
-done
-
-if [ "$(uname)" = 'Darwin' ]; then
-    brew install vim --with-lua
-elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
-    if [ "$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')" != 'debian' ]; then
-        kind="$(cat /etc/os-release | grep ^ID_LIKE= | sed -e 's/ID_LIKE=//')"
-        if [ "$kind" = 'debian' -o "$kind" = 'ubuntu' ]; then
-            sudo apt install -y vim-nox
-        else
-            echo "Your distribution ($kind) is not supported."
-            exit 1;
-        fi
-    fi
-else
-    echo "Your platform ($(uname -a)) is not supported."
-    exit 1
+if [ -z "$BASH" ]; then
+    echo "only works with bash" >&2
 fi
 
+usage(){
+    cat <<EOF
+
+Usage: ./install.sh [options]
+
+Options:
+
+--full      Install All
+--full-conf Install All config files
+
+--vim       Install vim config
+--vim-lua   Install 'vim-nox' or 'vim --with-lua' on your machine
+--tmux      Install tmux config
+--nano      Install nano config
+
+If not set options Run Installer
+
+EOF
+}
+
+install_vim_lua(){
+    echo -e "begin install vim\n"
+    if [ "$(uname)" = 'Darwin' ]; then
+        brew install vim --with-lua
+    elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
+        if [ "$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')" != 'debian' ]; then
+            kind="$(cat /etc/os-release | grep ^ID_LIKE= | sed -e 's/ID_LIKE=//')"
+            if [ "$kind" = 'debian' -o "$kind" = 'ubuntu' ]; then
+                sudo apt install -y vim-nox
+            else
+                echo "Your distribution ($kind) is not supported."
+                exit 1;
+            fi
+        fi
+    else
+        echo "Your platform ($(uname -a)) is not supported."
+        exit 1
+    fi
+}
+
+install(){
+    case $1 in
+        "full" )
+            ln -s ~/.dotfiles/vim/.vimrc ~ && \
+                ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
+                ln -s ~/.dotfiles/nano/.nanorc ~ && \
+                install_vim_lua && \
+                echo "full install ok."
+            ;;
+        "full-conf" )
+            ln -s ~/.dotfiles/vim/.vimrc ~ && \
+                ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
+                ln -s ~/.dotfiles/nano/.nanorc ~ && \
+                echo "all config install ok."
+            ;;
+        "vim" )
+            ln -s ~/.dotfiles/vim/.vimrc ~ && \
+                echo "vim conf install ok."
+            ;;
+        "vim-lua" )
+            install_vim_lua && \
+                echo "completed install vim."
+            ;;
+        "tmux" )
+            ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
+                echo "tmux conf install ok."
+            ;;
+        "nano" )
+            ln -s ~/.dotfiles/nano/.nanorc ~ && \
+                echo "nano conf install ok."
+            ;;
+    esac
+}
+
+installer(){
+    local PS3 item
+    echo "Install Menu:"
+    PS3="what do you install? > "
+    select item in \
+        "full" "full-conf" "vim" "vim-lua" "tmux" "nano"
+    do
+        echo "selected: ${item}"
+        install $item
+        break
+    done
+}
+
+if [ "$1" = "" ]; then
+    installer
+else
+    for opt in "$@"
+    do
+        case "$opt" in
+            '-h' | '--help' )
+                usage
+                exit 1
+                ;;
+            '--full' | '--full-conf' | '--vim' | '--vim-lua' | '--tmux' | '--nano' )
+                install `echo "$opt" | sed -e s/^--//`
+                ;;
+            *)
+                installer
+                break
+                ;;
+        esac
+    done
+fi
+
+exit 0

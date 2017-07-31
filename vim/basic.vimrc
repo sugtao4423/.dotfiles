@@ -25,3 +25,8 @@ set smarttab
 set clipboard=unnamed
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,]
+
+nnoremap j gj
+nnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk

@@ -23,6 +23,7 @@ set expandtab
 set smarttab
 
 set clipboard=unnamed
+set nocompatible
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,]
 

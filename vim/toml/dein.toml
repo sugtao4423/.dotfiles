@@ -16,3 +16,6 @@ repo = 'scrooloose/nerdtree'
 
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
+
+[[plugins]]
+repo = 'alvan/vim-closetag'

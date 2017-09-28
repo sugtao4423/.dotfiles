@@ -27,6 +27,8 @@ set nocompatible
 set backspace=indent,eol,start
 set whichwrap=b,s,h,l,<,>,[,]
 
+set timeout timeoutlen=1000 ttimeoutlen=50
+
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj

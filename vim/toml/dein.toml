@@ -19,3 +19,6 @@ repo = 'Xuyuanp/nerdtree-git-plugin'
 
 [[plugins]]
 repo = 'alvan/vim-closetag'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'

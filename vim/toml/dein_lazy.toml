@@ -2,3 +2,7 @@
 repo = 'Shougo/neocomplete.vim'
 disabled = '!has("lua")'
 on_i = 1
+
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = ['go']

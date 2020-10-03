@@ -13,10 +13,6 @@ repo = 'roxma/vim-hug-neovim-rpc'
 disabled = 'has("nvim") || !has("python3") || v:version <= 800'
 
 [[plugins]]
-repo = 'fatih/vim-go'
-on_ft = ['go']
-
-[[plugins]]
 repo = 'Shougo/neocomplete.vim'
 disabled = '!has("lua") || v:version > 800'
 on_event = 'InsertEnter'

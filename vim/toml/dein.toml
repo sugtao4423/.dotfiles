@@ -3,7 +3,9 @@ repo = 'Shougo/dein.vim'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
-hook_add = ''' let g:lightline = { 'colorscheme': 'wombat' } '''
+hook_add = '''
+  let g:lightline = { 'colorscheme': 'wombat' }
+'''
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'

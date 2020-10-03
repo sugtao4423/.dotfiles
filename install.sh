@@ -32,7 +32,7 @@ install_vim(){
     elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
         if type "apt" > /dev/null 2>&1; then
             sudo apt install -y vim-nox
-            sudo apt install python3 python3-pip
+            sudo apt install -y python3 python3-pip
             pip3 install pynvim
         else
             kind="$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')"

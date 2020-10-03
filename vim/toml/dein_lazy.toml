@@ -1,7 +1,16 @@
 [[plugins]]
-repo = 'Shougo/neocomplete.vim'
-disabled = '!has("lua")'
-on_i = 1
+repo = 'Shougo/deoplete.nvim'
+disabled = '!has("python3")'
+on_event = 'InsertEnter'
+depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+disabled = 'has("nvim") || !has("python3")'
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+disabled = 'has("nvim") || !has("python3")'
 
 [[plugins]]
 repo = 'fatih/vim-go'

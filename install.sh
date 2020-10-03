@@ -27,10 +27,13 @@ EOF
 install_vim_lua(){
     echo -e "begin install vim\n"
     if [ "$(uname)" = 'Darwin' ]; then
-        brew install vim --with-lua
+        brew install vim
+        pip3 install pynvim
     elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
         if type "apt" > /dev/null 2>&1; then
             sudo apt install -y vim-nox
+            sudo apt install python3 python3-pip
+            pip3 install pynvim
         else
             kind="$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')"
             echo "Your distribution ($kind) is not supported."

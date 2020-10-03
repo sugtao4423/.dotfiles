@@ -14,17 +14,17 @@ Options:
 --full      Install All
 --full-conf Install All config files
 
---vim       Install vim config
---vim-lua   Install 'vim-nox' or 'vim --with-lua' on your machine
---tmux      Install tmux config
---nano      Install nano config
+--vim-conf  Install vim config
+--vim       Install vim
+--tmux-conf Install tmux config
+--nano-conf Install nano config
 
 If not set options Run Installer
 
 EOF
 }
 
-install_vim_lua(){
+install_vim(){
     echo -e "begin install vim\n"
     if [ "$(uname)" = 'Darwin' ]; then
         brew install vim
@@ -51,7 +51,7 @@ install(){
             ln -s ~/.dotfiles/vim/.vimrc ~ && \
                 ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
                 ln -s ~/.dotfiles/nano/.nanorc ~ && \
-                install_vim_lua && \
+                install_vim && \
                 echo "full install ok."
             ;;
         "full-conf" )
@@ -60,19 +60,19 @@ install(){
                 ln -s ~/.dotfiles/nano/.nanorc ~ && \
                 echo "all config install ok."
             ;;
-        "vim" )
+        "vim-conf" )
             ln -s ~/.dotfiles/vim/.vimrc ~ && \
                 echo "vim conf install ok."
             ;;
-        "vim-lua" )
-            install_vim_lua && \
+        "vim" )
+            install_vim && \
                 echo "completed install vim."
             ;;
-        "tmux" )
+        "tmux-conf" )
             ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
                 echo "tmux conf install ok."
             ;;
-        "nano" )
+        "nano-conf" )
             ln -s ~/.dotfiles/nano/.nanorc ~ && \
                 echo "nano conf install ok."
             ;;
@@ -84,7 +84,7 @@ installer(){
     echo "Install Menu:"
     PS3="what do you install? > "
     select item in \
-        "full" "full-conf" "vim" "vim-lua" "tmux" "nano"
+        "full" "full-conf" "vim-conf" "vim" "tmux-conf" "nano-conf"
     do
         echo "selected: ${item}"
         install $item
@@ -102,7 +102,7 @@ else
                 usage
                 exit 1
                 ;;
-            '--full' | '--full-conf' | '--vim' | '--vim-lua' | '--tmux' | '--nano' )
+            '--full' | '--full-conf' | '--vim-conf' | '--vim' | '--tmux-conf' | '--nano-conf' )
                 install `echo "$opt" | sed -e s/^--//`
                 ;;
             *)

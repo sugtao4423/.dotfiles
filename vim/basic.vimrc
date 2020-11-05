@@ -23,6 +23,11 @@ set softtabstop=4
 set expandtab
 set smarttab
 
+augroup fileTypeIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.sh,*.html,*.js,*.json,*.css,*.yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+augroup END
+
 set clipboard=unnamed
 set nocompatible
 set backspace=indent,eol,start

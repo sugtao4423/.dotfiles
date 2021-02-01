@@ -25,7 +25,7 @@ set smarttab
 
 augroup fileTypeIndent
     autocmd!
-    autocmd BufNewFile,BufRead *.sh,*.html,*.js,*.json,*.css,*.yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd BufNewFile,BufRead *.sh,*.html,*.js,*.json,*.css,*.yaml,*.yml setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
 set clipboard=unnamed

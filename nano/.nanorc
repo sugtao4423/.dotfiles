@@ -1,4 +1,4 @@
 set tabsize 4
-set const
+set constantshow
 set smooth
 set nowrap

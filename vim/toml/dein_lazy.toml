@@ -1,18 +1,18 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
-disabled = '!has("python3") || v:version <= 800'
+disabled = '!has("python3")'
 on_event = 'InsertEnter'
 depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
 
 [[plugins]]
 repo = 'roxma/nvim-yarp'
-disabled = 'has("nvim") || !has("python3") || v:version <= 800'
+disabled = 'has("nvim") || !has("python3")'
 
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-disabled = 'has("nvim") || !has("python3") || v:version <= 800'
+disabled = 'has("nvim") || !has("python3")'
 hook_post_update = '''
-  if !has("nvim") && has("python3") && v:version > 800
+  if !has("nvim") && has("python3")
     py3 import pip; pip.main(['install', '--user', 'pynvim'])
   endif
 '''

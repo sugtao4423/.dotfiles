@@ -1,11 +1,17 @@
-let s:dein_dir = expand('~/.dotfiles/vim/dein')
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
+let $CACHE = expand('~/.dotfiles/vim/dein')
+if !isdirectory($CACHE)
+  call mkdir($CACHE, 'p')
+endif
 if &runtimepath !~# '/dein.vim'
-    if !isdirectory(s:dein_repo_dir)
-        call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
+  let s:dein_dir = fnamemodify('dein.vim', ':p')
+  if !isdirectory(s:dein_dir)
+    let s:dein_dir = $CACHE .. '/repos/github.com/Shougo/dein.vim'
+    if !isdirectory(s:dein_dir)
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
     endif
-    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+  endif
+  execute 'set runtimepath^=' .. substitute(
+        \ fnamemodify(s:dein_dir, ':p') , '[/\\]$', '', '')
 endif
 
 let s:toml_dir = '~/.dotfiles/vim/toml/'
@@ -24,4 +30,3 @@ endif
 if has('vim_starting') && dein#check_install()
     call dein#install()
 endif
-

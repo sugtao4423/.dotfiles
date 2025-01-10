@@ -4,6 +4,7 @@ local map = {
   { 'n', 'k', 'gk' },
   { 'n', '<Down>', 'gj' },
   { 'n', '<Up>', 'gk' },
+  { 'n', '<C-e>', ':NvimTreeToggle<CR>', { silent = true } },
 }
 
 for _, v in ipairs(map) do

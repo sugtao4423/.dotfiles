@@ -1,19 +1,19 @@
 local char = '▏'
 
 local highlight_colors = {
-  'IndentRainbowRed',     { fg = '#e06c75', ctermfg = 168 },
-  'IndentRainbowYellow',  { fg = '#e5c07b', ctermfg = 180 },
-  'IndentRainbowBlue',    { fg = '#61afef', ctermfg = 75 },
-  'IndentRainbowOrange',  { fg = '#d19a66', ctermfg = 173 },
-  'IndentRainbowGreen',   { fg = '#98c379', ctermfg = 114 },
-  'IndentRainbowViolet',  { fg = '#c678dd', ctermfg = 176 },
-  'IndentRainbowCyan',    { fg = '#56b6c2', ctermfg = 73 },
+  { 'IndentRainbowRed',     { fg = '#e06c75', ctermfg = 168 } },
+  { 'IndentRainbowYellow',  { fg = '#e5c07b', ctermfg = 180 } },
+  { 'IndentRainbowBlue',    { fg = '#61afef', ctermfg = 75 } },
+  { 'IndentRainbowOrange',  { fg = '#d19a66', ctermfg = 173 } },
+  { 'IndentRainbowGreen',   { fg = '#98c379', ctermfg = 114 } },
+  { 'IndentRainbowViolet',  { fg = '#c678dd', ctermfg = 176 } },
+  { 'IndentRainbowCyan',    { fg = '#56b6c2', ctermfg = 73 } },
 }
 local highlight = {}
 
-for i = 1, #highlight_colors, 2 do
-  local name = highlight_colors[i]
-  local color = highlight_colors[i + 1]
+for _, v in ipairs(highlight_colors) do
+  local name = v[1]
+  local color = v[2]
   table.insert(highlight, name)
   vim.api.nvim_set_hl(0, name, color)
 end

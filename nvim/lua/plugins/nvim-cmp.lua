@@ -27,6 +27,11 @@ return {
     local prev = function(fallback) completion(fallback, 'select_prev_item') end
 
     cmp.setup({
+      window = {
+        completion = {
+          winhighlight = 'Normal:CmpNormal,FloatBorder:CmpNormal,CursorLine:CmpNormalSel,Search:None',
+        },
+      },
       mapping = {
         ['<Tab>'] = next,
         ['<S-Tab>'] = prev,

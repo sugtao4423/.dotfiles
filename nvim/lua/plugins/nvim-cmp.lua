@@ -31,6 +31,9 @@ return {
         completion = {
           winhighlight = 'Normal:CmpNormal,FloatBorder:CmpNormal,CursorLine:CmpNormalSel,Search:None',
         },
+        documentation = {
+          border = 'rounded',
+        },
       },
       mapping = {
         ['<Tab>'] = next,

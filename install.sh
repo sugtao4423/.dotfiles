@@ -14,8 +14,8 @@ Options:
 --full      Install All
 --full-conf Install All config files
 
---vim-conf  Install vim config
---vim       Install vim
+--nvim-conf Install neovim config
+--nvim      Install neovim
 --tmux-conf Install tmux config
 --nano-conf Install nano config
 
@@ -24,18 +24,20 @@ If not set options Run Installer
 EOF
 }
 
-install_vim(){
-    echo -e "begin install vim\n"
+install_nvim(){
+    echo -e "begin install nvim\n"
     if [ "$(uname)" = 'Darwin' ]; then
-        brew install vim
-        pip3 install pynvim
+        brew install neovim
     elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
-        if type "apt" > /dev/null 2>&1; then
-            sudo apt install -y vim-nox
-            sudo apt install -y python3 python3-pip
-            pip3 install pynvim
+        kind="$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')"
+        if [ "$kind" = 'debian' ]; then
+            sudo rm -rf /opt/nvim-linux64 && \
+            sudo mkdir -p /opt/nvim-linux64 && \
+            sudo chmod a+rX /opt/nvim-linux64 && \
+            curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | sudo tar -C /opt -xzvf - && \
+            sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/ && \
+            sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
         else
-            kind="$(cat /etc/os-release | grep ^ID= | sed -e 's/ID=//')"
             echo "Your distribution ($kind) is not supported."
             exit 1;
         fi
@@ -48,25 +50,28 @@ install_vim(){
 install(){
     case $1 in
         "full" )
-            ln -s ~/.dotfiles/vim/.vimrc ~ && \
+            mkdir -p ~/.config && \
+                ln -s ~/.dotfiles/nvim ~/.config/ && \
                 ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
                 ln -s ~/.dotfiles/nano/.nanorc ~ && \
-                install_vim && \
+                install_nvim && \
                 echo "full install ok."
             ;;
         "full-conf" )
-            ln -s ~/.dotfiles/vim/.vimrc ~ && \
+            mkdir -p ~/.config && \
+                ln -s ~/.dotfiles/nvim ~/.config/ && \
                 ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
                 ln -s ~/.dotfiles/nano/.nanorc ~ && \
                 echo "all config install ok."
             ;;
-        "vim-conf" )
-            ln -s ~/.dotfiles/vim/.vimrc ~ && \
-                echo "vim conf install ok."
+        "nvim-conf" )
+            mkdir -p ~/.config && \
+                ln -s ~/.dotfiles/nvim ~/.config/ && \
+                echo "nvim conf install ok."
             ;;
-        "vim" )
-            install_vim && \
-                echo "completed install vim."
+        "nvim" )
+            install_nvim && \
+                echo "completed install nvim."
             ;;
         "tmux-conf" )
             ln -s ~/.dotfiles/tmux/.tmux.conf ~ && \
@@ -84,7 +89,7 @@ installer(){
     echo "Install Menu:"
     PS3="what do you install? > "
     select item in \
-        "full" "full-conf" "vim-conf" "vim" "tmux-conf" "nano-conf"
+        "full" "full-conf" "nvim-conf" "nvim" "tmux-conf" "nano-conf"
     do
         echo "selected: ${item}"
         install $item
@@ -102,7 +107,7 @@ else
                 usage
                 exit 1
                 ;;
-            '--full' | '--full-conf' | '--vim-conf' | '--vim' | '--tmux-conf' | '--nano-conf' )
+            '--full' | '--full-conf' | '--nvim-conf' | '--nvim' | '--tmux-conf' | '--nano-conf' )
                 install `echo "$opt" | sed -e s/^--//`
                 ;;
             *)

@@ -1,0 +1,133 @@
+#!/bin/bash
+
+if [[ -z "$BASH" ]]; then
+  echo 'This script only works with Bash.' >&2
+  exit 1
+fi
+
+usage() {
+  cat <<EOF
+Usage: ./install [options]
+
+Options:
+  --full         Install everything
+  --full-conf    Install all configuration files
+  --nvim-conf    Install neovim configuration
+  --nvim         Install neovim
+  --tmux-conf    Install tmux configuration
+  --nano-conf    Install nano configuration
+  -h, --help     Show this help message
+
+If no options are provided, an interactive installer will run.
+EOF
+}
+
+install_nvim() {
+  echo 'Starting Neovim installation...'
+  case "$(uname)" in
+    Darwin)
+      brew install neovim
+      ;;
+    Linux)
+      distro=$(grep -E '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+      if [[ "$distro" == 'debian' ]]; then
+        sudo rm -rf /opt/nvim-linux64 && \
+        sudo mkdir -p /opt/nvim-linux64 && \
+        sudo chmod a+rX /opt/nvim-linux64 && \
+        curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz \
+          | sudo tar -C /opt -xzvf - && \
+        sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/ && \
+        sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
+      else
+        echo "Unsupported Linux distribution: $distro"
+        exit 1
+      fi
+      ;;
+    *)
+      echo "Unsupported platform: $(uname -a)"
+      exit 1
+      ;;
+  esac
+}
+
+perform_installation() {
+  local option=$1
+  case "$option" in
+    full)
+      mkdir -p ~/.config && \
+      ln -sfn ~/.dotfiles/nvim ~/.config/ && \
+      ln -sfn ~/.dotfiles/tmux/.tmux.conf ~ && \
+      ln -sfn ~/.dotfiles/nano/.nanorc ~ && \
+      install_nvim && \
+      echo 'Full installation completed.'
+      ;;
+    full-conf)
+      mkdir -p ~/.config && \
+      ln -sfn ~/.dotfiles/nvim ~/.config/ && \
+      ln -sfn ~/.dotfiles/tmux/.tmux.conf ~ && \
+      ln -sfn ~/.dotfiles/nano/.nanorc ~ && \
+      echo 'All configuration files installed.'
+      ;;
+    nvim-conf)
+      mkdir -p ~/.config && \
+      ln -sfn ~/.dotfiles/nvim ~/.config/ && \
+      echo 'neovim configuration installed.'
+      ;;
+    nvim)
+      install_nvim && \
+      echo 'neovim installation completed.'
+      ;;
+    tmux-conf)
+      ln -sfn ~/.dotfiles/tmux/.tmux.conf ~ && \
+      echo 'tmux configuration installed.'
+      ;;
+    nano-conf)
+      ln -sfn ~/.dotfiles/nano/.nanorc ~ && \
+      echo 'nano configuration installed.'
+      ;;
+    *)
+      echo "Unknown installation option: $option"
+      usage
+      exit 1
+      ;;
+  esac
+}
+
+interactive_installer() {
+  echo 'Select an installation option:'
+  PS3='Enter the number corresponding to your choice: '
+  options=('full' 'full-conf' 'nvim-conf' 'nvim' 'tmux-conf' 'nano-conf' 'Quit')
+  select opt in "${options[@]}"; do
+    case "$opt" in
+      Quit)
+        echo 'Exiting installer.'
+        break
+        ;;
+      *)
+        perform_installation "$opt"
+        break
+        ;;
+    esac
+  done
+}
+
+if [[ $# -eq 0 ]]; then
+  interactive_installer
+else
+  for arg in "$@"; do
+    case "$arg" in
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      --full|--full-conf|--nvim-conf|--nvim|--tmux-conf|--nano-conf)
+        perform_installation "${arg#--}"
+        ;;
+      *)
+        echo "Invalid option: $arg"
+        usage
+        exit 1
+        ;;
+    esac
+  done
+fi

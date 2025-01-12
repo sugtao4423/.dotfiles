@@ -1,8 +1,0 @@
-[[plugins]]
-repo = 'elzr/vim-json'
-hook_add = ''' let g:vim_json_syntax_conceal = 0 '''
-on_ft = 'json'
-
-[[plugins]]
-repo = 'fatih/vim-go'
-on_ft = 'go'

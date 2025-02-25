@@ -31,12 +31,12 @@ install_nvim() {
     Linux)
       distro=$(grep -E '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
       if [[ "$distro" == 'debian' ]]; then
-        sudo rm -rf /opt/nvim-linux64 && \
-        sudo mkdir -p /opt/nvim-linux64 && \
-        sudo chmod a+rX /opt/nvim-linux64 && \
-        curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz \
+        sudo rm -rf /opt/nvim-linux-x86_64 && \
+        sudo mkdir -p /opt/nvim-linux-x86_64 && \
+        sudo chmod a+rX /opt/nvim-linux-x86_64 && \
+        curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz \
           | sudo tar -C /opt -xzvf - && \
-        sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/ && \
+        sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/ && \
         sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/nvim 50
       else
         echo "Unsupported Linux distribution: $distro"

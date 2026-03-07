@@ -1,3 +1,17 @@
+local languages = {
+  'bash',
+  'c',
+  'diff',
+  'dockerfile',
+  'json',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'vim',
+  'vimdoc',
+  'yaml',
+}
+
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
@@ -12,22 +26,13 @@ return {
     return false
   end,
   config = function()
-    require('nvim-treesitter.configs').setup({
-      ensure_installed = {
-        'bash',
-        'c',
-        'diff',
-        'dockerfile',
-        'json',
-        'lua',
-        'markdown',
-        'markdown_inline',
-        'vim',
-        'vimdoc',
-        'yaml',
-      },
-      highlight = { enable = true },
-      indent = { enable = true },
+    require('nvim-treesitter').install(languages)
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = languages,
+      callback = function()
+        vim.treesitter.start()
+      end,
     })
   end,
 }

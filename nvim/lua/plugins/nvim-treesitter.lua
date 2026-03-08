@@ -28,8 +28,12 @@ return {
   config = function()
     require('nvim-treesitter').install(languages)
 
+    local filetypes = vim.iter(languages):map(function(lang)
+      return vim.treesitter.language.get_filetypes(lang)
+    end):flatten(math.huge):totable()
+
     vim.api.nvim_create_autocmd('FileType', {
-      pattern = languages,
+      pattern = filetypes,
       callback = function()
         vim.treesitter.start()
       end,

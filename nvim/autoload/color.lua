@@ -1,3 +1,5 @@
+vim.opt.termguicolors = true
+
 local colors = {
   { 'Normal', {} },
   { 'NormalNC', {} },

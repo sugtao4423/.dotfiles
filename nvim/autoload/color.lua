@@ -1,4 +1,6 @@
 local colors = {
+  { 'Normal', {} },
+  { 'NormalNC', {} },
   { 'LineNr', { fg = '#af5f00', ctermfg = 130 } },
   { 'EoLSpace', { bg = 'darkred', ctermbg = 'darkred' } },
 
